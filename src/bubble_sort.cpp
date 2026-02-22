@@ -1,3 +1,4 @@
-//
-// Created by Sofya on 22.02.2026.
-//
+#include "bubble_sort.hpp"
+
+// Bubble Sort implementation
+// Template class - all code is in the header file
