@@ -21,6 +21,7 @@ add_library(sortlib STATIC
 add_executable(main_app
         src/main.cpp
         src/console_ui.cpp
+        src/selection_sort.cpp
 )
 
 target_link_libraries(main_app PRIVATE sortlib)
