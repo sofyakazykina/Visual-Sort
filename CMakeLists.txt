@@ -15,12 +15,14 @@ add_library(sortlib STATIC
         src/insertion_sort.cpp
         src/selection_sort.cpp
         src/logger.cpp
+        src/config.cpp
 )
 
 # Исполняемый файл
 add_executable(main_app
         src/main.cpp
         src/console_ui.cpp
+        src/selection_sort.cpp
 )
 
 target_link_libraries(main_app PRIVATE sortlib)
