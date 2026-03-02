@@ -15,6 +15,7 @@ add_library(sortlib STATIC
         src/insertion_sort.cpp
         src/selection_sort.cpp
         src/logger.cpp
+        src/config.cpp
 )
 
 # Исполняемый файл

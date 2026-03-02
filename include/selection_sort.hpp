@@ -1,17 +1,49 @@
 #pragma once
+#include "sorter_interface.hpp"
+#include "logger.hpp"
 #include <vector>
-template<typename T>
-void selectionSort(std::vector<T>& vec)
-{
-    for (auto it = vec.begin(); it < vec.end()-1; ++it)
-    {
-        auto minIt = it;
-        for (auto it2 = it + 1; it2 <vec.end(); ++it2)
-        {
-            if ((*it2) <(*minIt)) {
-                minIt = it2;
+#include <chrono>
+#include <string>
+
+class SelectionSort : public ISorter {
+public:
+    std::string getName() const override {
+        return "Selection Sort";
+    }
+
+    SortResult sort(std::vector<int> arr) override {
+        Logger logger("sorter.log");
+        logger.log("=== Starting " + getName() + " ===");
+
+        SortResult result;
+        auto start = std::chrono::high_resolution_clock::now();
+
+        result.comparisons = 0;
+        result.swaps = 0;
+
+        for (size_t i = 0; i < arr.size() - 1; i++) {
+            size_t min_idx = i;
+
+            for (size_t j = i + 1; j < arr.size(); j++) {
+                result.comparisons++;
+                if (arr[j] < arr[min_idx]) {
+                    min_idx = j;
+                }
+            }
+
+            if (min_idx != i) {
+                std::swap(arr[i], arr[min_idx]);
+                result.swaps++;
             }
         }
-        swap((*it), *(minIt));
+
+        auto end = std::chrono::high_resolution_clock::now();
+        result.execution_time_ms = std::chrono::duration<double, std::milli>(end - start).count();
+        result.sorted_array = arr;
+
+        logger.logResult(getName(), result);
+        logger.log("=== Finished " + getName() + " ===\n");
+
+        return result;
     }
-}
+};
