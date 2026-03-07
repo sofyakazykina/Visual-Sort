@@ -11,7 +11,7 @@ inline void bubble_sort(std::vector<int>& array_of_elements) {
                 int temp = array_of_elements[j];
                 array_of_elements[j] = array_of_elements[j + 1];
                 array_of_elements[j + 1] = temp;
-                swapped = true;
+                swapped = true;ls -la src/main.cpp
             }
         }
         if (not swapped) {
