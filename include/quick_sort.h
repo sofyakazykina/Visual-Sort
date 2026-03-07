@@ -1,8 +1,0 @@
-//
-// Created by Sofya on 07.03.2026.
-//
-
-#ifndef VISUAL_SORT_QUICK_SORT_H
-#define VISUAL_SORT_QUICK_SORT_H
-
-#endif //VISUAL_SORT_QUICK_SORT_H
