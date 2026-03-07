@@ -1,2 +1,0 @@
-/usr/bin/ar qc libsortlib.a CMakeFiles/sortlib.dir/src/bubble_sort.cpp.o CMakeFiles/sortlib.dir/src/insertion_sort.cpp.o CMakeFiles/sortlib.dir/src/selection_sort.cpp.o CMakeFiles/sortlib.dir/src/logger.cpp.o
-/usr/bin/ranlib libsortlib.a
