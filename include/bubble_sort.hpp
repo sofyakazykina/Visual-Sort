@@ -1,5 +1,7 @@
-#ifndef BUBBLE_SORT_HPP
-#define BUBBLE_SORT_HPP
+// include/bubble_sort.hpp
+#pragma once
+#include "sorter.hpp"
+#include "logger.hpp"
 #include <vector>
 inline void bubble_sort(std::vector<int>& array_of_elements) {
     int number_of_elements = array_of_elements.size();
@@ -14,9 +16,15 @@ inline void bubble_sort(std::vector<int>& array_of_elements) {
                 swapped = true;ls -la src/main.cpp
             }
         }
-        if (not swapped) {
-            break;
-        }
+
+        auto end = std::chrono::high_resolution_clock::now();
+        result.execution_time_ms = std::chrono::duration<double, std::milli>(end - start).count();
+        result.sorted_array = arr;
+
+        // // logger.logResult(getName(), result);
+        logger.log("=== Finished " + getName() + " ===\n");
+
+        return result;
     }
 }
 #endif
