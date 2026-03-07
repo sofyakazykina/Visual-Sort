@@ -10,12 +10,16 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 
 # Библиотека с логикой
 add_library(sortlib STATIC
-        src/sorter.cpp
         src/bubble_sort.cpp
         src/insertion_sort.cpp
         src/selection_sort.cpp
+        src/quick_sort.cpp
+        src/merge_sort.cpp
+        src/heap_sort.cpp
+        src/shell_sort.cpp
+        src/counting_sort.cpp  
         src/logger.cpp
-        src/config.cpp
+        src/console_ui.cpp
 )
 
 # Исполняемый файл
