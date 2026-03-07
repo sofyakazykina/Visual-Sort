@@ -1,1 +1,2 @@
-#include "sorter.hpp"
+#include "shell_sort.hpp"
+// Implementation is in the header file (header-only class)

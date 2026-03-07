@@ -1,2 +1,2 @@
 #include "bubble_sort.hpp"
-#include "sorter.hpp"
+// Implementation is in the header file (header-only class)
