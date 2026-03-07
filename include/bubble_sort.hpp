@@ -1,6 +1,6 @@
 // include/bubble_sort.hpp
 #pragma once
-#include "sorter_interface.hpp"
+#include "sorter.hpp"
 #include "logger.hpp"
 #include <vector>
 #include <chrono>
