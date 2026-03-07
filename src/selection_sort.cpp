@@ -1,3 +1,2 @@
-#include "insertion_sort.hpp"
-// Template implementation is in header
-#include "sorter.hpp"
+#include "selection_sort.hpp"
+// Implementation is in the header file (header-only class)
