@@ -1,5 +1,5 @@
 #pragma once
-#include "sorter_interface.hpp"
+#include "sorter.hpp"
 #include "logger.hpp"
 #include <vector>
 #include <chrono>
@@ -41,7 +41,7 @@ public:
         result.execution_time_ms = std::chrono::duration<double, std::milli>(end - start).count();
         result.sorted_array = arr;
 
-        logger.logResult(getName(), result);
+        // // logger.logResult(getName(), result);
         logger.log("=== Finished " + getName() + " ===\n");
 
         return result;
