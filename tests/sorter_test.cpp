@@ -198,3 +198,29 @@ TEST_F(SortTest, ShellSort_MeasuresTime) {
     auto result = sorter.sort(unsorted);
     EXPECT_GE(result.execution_time_ms, 0);
 }
+
+// Counting Sort тесты
+
+TEST_F(SortTest, CountingSort_SortsCorrectly) {
+    CountingSort sorter;
+    auto result = sorter.sort(unsorted);
+    EXPECT_EQ(result.sorted_array, expected);
+}
+
+TEST_F(SortTest, CountingSort_CountsComparisons) {
+    CountingSort sorter;
+    auto result = sorter.sort(unsorted);
+    EXPECT_GT(result.comparisons, 0);
+}
+
+TEST_F(SortTest, CountingSort_CountsSwaps) {
+    CountingSort sorter;
+    auto result = sorter.sort(unsorted);
+    EXPECT_GE(result.swaps, 0);
+}
+
+TEST_F(SortTest, CountingSort_MeasuresTime) {
+    CountingSort sorter;
+    auto result = sorter.sort(unsorted);
+    EXPECT_GE(result.execution_time_ms, 0);
+}
