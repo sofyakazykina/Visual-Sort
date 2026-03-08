@@ -4,6 +4,11 @@
 #include "../include/selection_sort.hpp"
 #include <vector>
 #include <algorithm>
+#include "../include/quick_sort.hpp"
+#include "../include/merge_sort.hpp"
+#include "../include/heap_sort.hpp"
+#include "../include/shell_sort.hpp"
+#include "../include/counting_sort.hpp"
 
 class SortTest : public ::testing::Test {
 protected:
