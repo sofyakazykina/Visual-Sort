@@ -146,3 +146,29 @@ TEST_F(SortTest, MergeSort_MeasuresTime) {
     auto result = sorter.sort(unsorted);
     EXPECT_GE(result.execution_time_ms, 0);
 }
+
+// Heap Sort тесты
+
+TEST_F(SortTest, HeapSort_SortsCorrectly) {
+    HeapSort sorter;
+    auto result = sorter.sort(unsorted);
+    EXPECT_EQ(result.sorted_array, expected);
+}
+
+TEST_F(SortTest, HeapSort_CountsComparisons) {
+    HeapSort sorter;
+    auto result = sorter.sort(unsorted);
+    EXPECT_GT(result.comparisons, 0);
+}
+
+TEST_F(SortTest, HeapSort_CountsSwaps) {
+    HeapSort sorter;
+    auto result = sorter.sort(unsorted);
+    EXPECT_GE(result.swaps, 0);
+}
+
+TEST_F(SortTest, HeapSort_MeasuresTime) {
+    HeapSort sorter;
+    auto result = sorter.sort(unsorted);
+    EXPECT_GE(result.execution_time_ms, 0);
+}
