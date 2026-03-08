@@ -234,3 +234,42 @@ TEST_F(SortTest, CountingSort_HandlesNegativeNumbers) {
     auto result = sorter.sort(withNegatives);
     EXPECT_EQ(result.sorted_array, expectedNeg);
 }
+
+
+// Общие тесты для всех новых сортировок (крайние случаи)
+
+// Пустой массив для всех новых алгоритмов
+TEST_F(SortTest, QuickSort_EmptyArray) {
+    QuickSort sorter;
+    std::vector<int> empty;
+    auto result = sorter.sort(empty);
+    EXPECT_TRUE(result.sorted_array.empty());
+}
+
+TEST_F(SortTest, MergeSort_EmptyArray) {
+    MergeSort sorter;
+    std::vector<int> empty;
+    auto result = sorter.sort(empty);
+    EXPECT_TRUE(result.sorted_array.empty());
+}
+
+TEST_F(SortTest, HeapSort_EmptyArray) {
+    HeapSort sorter;
+    std::vector<int> empty;
+    auto result = sorter.sort(empty);
+    EXPECT_TRUE(result.sorted_array.empty());
+}
+
+TEST_F(SortTest, ShellSort_EmptyArray) {
+    ShellSort sorter;
+    std::vector<int> empty;
+    auto result = sorter.sort(empty);
+    EXPECT_TRUE(result.sorted_array.empty());
+}
+
+TEST_F(SortTest, CountingSort_EmptyArray) {
+    CountingSort sorter;
+    std::vector<int> empty;
+    auto result = sorter.sort(empty);
+    EXPECT_TRUE(result.sorted_array.empty());
+}
