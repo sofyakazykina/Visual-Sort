@@ -273,3 +273,14 @@ TEST_F(SortTest, CountingSort_EmptyArray) {
     auto result = sorter.sort(empty);
     EXPECT_TRUE(result.sorted_array.empty());
 }
+
+
+// Один элемент для всех новых алгоритмов
+TEST_F(SortTest, QuickSort_SingleElement) {
+    QuickSort sorter;
+    std::vector<int> single = {42};
+    auto result = sorter.sort(single);
+    EXPECT_EQ(result.sorted_array.size(), 1);
+    EXPECT_EQ(result.sorted_array[0], 42);
+}
+
