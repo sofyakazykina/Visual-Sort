@@ -224,3 +224,13 @@ TEST_F(SortTest, CountingSort_MeasuresTime) {
     auto result = sorter.sort(unsorted);
     EXPECT_GE(result.execution_time_ms, 0);
 }
+
+// Дополнительные тесты для Counting Sort (отрицательные числа)
+
+TEST_F(SortTest, CountingSort_HandlesNegativeNumbers) {
+    CountingSort sorter;
+    std::vector<int> withNegatives = {-5, 10, -3, 0, 7, -1, 4};
+    std::vector<int> expectedNeg = {-5, -3, -1, 0, 4, 7, 10};
+    auto result = sorter.sort(withNegatives);
+    EXPECT_EQ(result.sorted_array, expectedNeg);
+}
