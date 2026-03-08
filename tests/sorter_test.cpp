@@ -284,3 +284,34 @@ TEST_F(SortTest, QuickSort_SingleElement) {
     EXPECT_EQ(result.sorted_array[0], 42);
 }
 
+TEST_F(SortTest, MergeSort_SingleElement) {
+    MergeSort sorter;
+    std::vector<int> single = {42};
+    auto result = sorter.sort(single);
+    EXPECT_EQ(result.sorted_array.size(), 1);
+    EXPECT_EQ(result.sorted_array[0], 42);
+}
+
+TEST_F(SortTest, HeapSort_SingleElement) {
+    HeapSort sorter;
+    std::vector<int> single = {42};
+    auto result = sorter.sort(single);
+    EXPECT_EQ(result.sorted_array.size(), 1);
+    EXPECT_EQ(result.sorted_array[0], 42);
+}
+
+TEST_F(SortTest, ShellSort_SingleElement) {
+    ShellSort sorter;
+    std::vector<int> single = {42};
+    auto result = sorter.sort(single);
+    EXPECT_EQ(result.sorted_array.size(), 1);
+    EXPECT_EQ(result.sorted_array[0], 42);
+}
+
+TEST_F(SortTest, CountingSort_SingleElement) {
+    CountingSort sorter;
+    std::vector<int> single = {42};
+    auto result = sorter.sort(single);
+    EXPECT_EQ(result.sorted_array.size(), 1);
+    EXPECT_EQ(result.sorted_array[0], 42);
+}
