@@ -172,3 +172,29 @@ TEST_F(SortTest, HeapSort_MeasuresTime) {
     auto result = sorter.sort(unsorted);
     EXPECT_GE(result.execution_time_ms, 0);
 }
+
+// Shell Sort тесты
+
+TEST_F(SortTest, ShellSort_SortsCorrectly) {
+    ShellSort sorter;
+    auto result = sorter.sort(unsorted);
+    EXPECT_EQ(result.sorted_array, expected);
+}
+
+TEST_F(SortTest, ShellSort_CountsComparisons) {
+    ShellSort sorter;
+    auto result = sorter.sort(unsorted);
+    EXPECT_GT(result.comparisons, 0);
+}
+
+TEST_F(SortTest, ShellSort_CountsSwaps) {
+    ShellSort sorter;
+    auto result = sorter.sort(unsorted);
+    EXPECT_GE(result.swaps, 0);
+}
+
+TEST_F(SortTest, ShellSort_MeasuresTime) {
+    ShellSort sorter;
+    auto result = sorter.sort(unsorted);
+    EXPECT_GE(result.execution_time_ms, 0);
+}
