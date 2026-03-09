@@ -4,9 +4,12 @@
 #include <optional>
 #include <functional>
 #include <memory>
+#include <chrono>
+#include <format>
 
 struct SortStats {
     long long comparisons = 0;
+    long long swaps = 0;
     double duration_ms = 0.0;
 };
 
@@ -37,6 +40,11 @@ namespace ui {
         BubbleSort = 1,
         InsertionSort = 2,
         SelectionSort = 3,
+        QuickSort = 4,
+        MergeSort = 5,
+        HeapSort = 6,
+        ShellSort = 7,
+        CountingSort = 8,
         Exit = 0
     };
 
@@ -48,7 +56,8 @@ namespace ui {
                          int highlightIdx1 = -1, int highlightIdx2 = -1) const;
         std::optional<int> getArraySize() const;
         std::optional<MenuOption> getAlgorithmChoice() const;
-        void showStats(const std::string& algoName, const SortStats& stats) const;
+        void showStats(const std::string& algoName, const SortStats& stats,
+                       const std::vector<int>& original, const std::vector<int>& sorted) const;
         void saveResults(const std::string& filename, const std::string& algo,
                          int size, const SortStats& stats) const;
         void printMessage(const std::string& msg) const;
