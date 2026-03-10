@@ -1,3 +1,2 @@
-//
-// Created by Sofya on 22.02.2026.
-//
+#include "insertion_sort.hpp"
+// Implementation is in the header file (header-only class)
