@@ -1,46 +1,23 @@
-#ifndef LOGGER_HPP
-#define LOGGER_HPP
-
+#pragma once
 #include <string>
 #include <fstream>
-#include <mutex>
 #include <memory>
+#include "sorter.hpp"  // ← для SortResult
 
 class Logger {
 public:
-    enum class Level {
-        DEBUG,
-        INFO,
-        WARNING,
-        ERROR,
-        CRITICAL
-    };
-
     explicit Logger(const std::string& filename);
+    void log(const std::string& message);
+
+    // ← ДОБАВЬ ЭТОТ МЕТОД
+    void logResult(const std::string& algoName, const SortResult& result) {
+        log(algoName + " | Comparisons: " + std::to_string(result.comparisons) +
+            " | Swaps: " + std::to_string(result.swaps) +
+            " | Time: " + std::to_string(result.execution_time_ms) + " ms");
+    }
+
     ~Logger();
 
-    Logger(const Logger&) = delete;
-    Logger& operator=(const Logger&) = delete;
-    Logger(Logger&&) = delete;
-    Logger& operator=(Logger&&) = delete;
-
-    void log(Level level, const std::string& message);
-    void debug(const std::string& message);
-    void info(const std::string& message);
-    void warning(const std::string& message);
-    void error(const std::string& message);
-    void critical(const std::string& message);
-
-    static Logger& instance();
-
 private:
-    std::ofstream file_;
-    std::mutex mutex_;
-    static std::unique_ptr<Logger> instance_;
-    static std::mutex instance_mutex_;
-
-    std::string levelToString(Level level) const;
-    std::string getCurrentTimestamp() const;
+    std::unique_ptr<std::ofstream> file_;
 };
-
-#endif
