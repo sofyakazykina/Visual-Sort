@@ -1,9 +1,8 @@
 #pragma once
 #include "sorter.hpp"
-#include "logger.hpp"
 #include <vector>
-#include <chrono>
 #include <string>
+#include <chrono>
 
 class InsertionSort : public ISorter {
 public:
@@ -11,40 +10,59 @@ public:
         return "Insertion Sort";
     }
 
-    SortResult sort(std::vector<int> arr) override {
-        Logger logger("sorter.log");
-        logger.log("=== Starting " + getName() + " ===");
-
-        SortResult result;
+    SortStats sort(std::vector<int>& arr, VisualCallback callback) override {
+        SortStats result;
         auto start = std::chrono::high_resolution_clock::now();
-
-        result.comparisons = 0;
-        result.swaps = 0;
 
         for (size_t i = 1; i < arr.size(); i++) {
             int key = arr[i];
-            int j = i - 1;
+            int j = static_cast<int>(i) - 1;
+
+            callback(arr, static_cast<int>(i), -1, "pick");
 
             while (j >= 0) {
                 result.comparisons++;
+                callback(arr, j, static_cast<int>(i), "compare");
+                
                 if (arr[j] > key) {
                     arr[j + 1] = arr[j];
                     result.swaps++;
+                    callback(arr, j, j + 1, "shift");
                     j--;
                 } else {
                     break;
                 }
             }
             arr[j + 1] = key;
+            callback(arr, j + 1, -1, "insert");
         }
 
         auto end = std::chrono::high_resolution_clock::now();
-        result.execution_time_ms = std::chrono::duration<double, std::milli>(end - start).count();
+        result.duration_ms = std::chrono::duration<double, std::milli>(end - start).count();
         result.sorted_array = arr;
+        return result;
+    }
 
-        // // logger.logResult(getName(), result);
-        logger.log("=== Finished " + getName() + " ===\n");
+    SortStats sortFast(std::vector<int> arr) override {
+        SortStats result;
+        auto start = std::chrono::high_resolution_clock::now();
 
+        for (size_t i = 1; i < arr.size(); i++) {
+            int key = arr[i];
+            int j = static_cast<int>(i) - 1;
+            while (j >= 0 && arr[j] > key) {
+                result.comparisons++;
+                arr[j + 1] = arr[j];
+                result.swaps++;
+                j--;
+            }
+            if (j >= 0) result.comparisons++;
+            arr[j + 1] = key;
+        }
+
+        auto end = std::chrono::high_resolution_clock::now();
+        result.duration_ms = std::chrono::duration<double, std::milli>(end - start).count();
+        result.sorted_array = arr;
         return result;
     }
 };
