@@ -49,3 +49,8 @@ _deps/
 cmake-build-debug/
 _deps/
 _deps/
+tests/CMakeFiles/
+tests/CTestTestfile.cmake
+tests/Makefile
+tests/cmake_install.cmake
+tests/cmake_install.cmake

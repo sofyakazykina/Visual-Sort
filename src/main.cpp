@@ -6,7 +6,6 @@
 #include "console_ui.hpp"
 #include "logger.hpp"
 
-// Алгоритмы
 #include "bubble_sort.hpp"
 #include "insertion_sort.hpp"
 #include "selection_sort.hpp"
@@ -23,7 +22,6 @@ int main() {
     ui.clearScreen();
     ui.showMenu();
     
-    // Выбор размера массива
     auto sizeOpt = ui.getArraySize();
     if (!sizeOpt) {
         ui.printMessage("Invalid array size!");
@@ -31,7 +29,6 @@ int main() {
     }
     int size = *sizeOpt;
     
-    // Генерация массива
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dist(ui::MIN_VALUE, ui::MAX_VALUE);
@@ -41,14 +38,12 @@ int main() {
         original[i] = dist(gen);
     }
     
-    // Выбор алгоритма
     auto algoOpt = ui.getAlgorithmChoice();
     if (!algoOpt || *algoOpt == ui::MenuOption::Exit) {
         ui.printMessage("Goodbye!");
         return 0;
     }
     
-    // Создание сортировщика
     std::unique_ptr<ISorter> sorter;
     switch (*algoOpt) {
         case ui::MenuOption::BubbleSort:
@@ -80,7 +75,6 @@ int main() {
             return 1;
     }
     
-    // Запуск сортировки с анимацией
     std::vector<int> arr = original;
     
     auto startTime = std::chrono::high_resolution_clock::now();
@@ -94,13 +88,10 @@ int main() {
     auto endTime = std::chrono::high_resolution_clock::now();
     stats.duration_ms = std::chrono::duration<double, std::milli>(endTime - startTime).count();
     
-    // Показ результатов
     ui.showStats(sorter->getName(), stats, original, arr);
     
-    // Логирование
     logger.logResult(sorter->getName(), stats);
     
-    ui.waitForEnter();
-    
+
     return 0;
 }
