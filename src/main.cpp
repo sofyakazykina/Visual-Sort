@@ -1,4 +1,12 @@
+#include <iostream>
+#include <vector>
+#include <chrono>
+#include <random>
+#include "sorter.hpp"
 #include "console_ui.hpp"
+#include "logger.hpp"
+
+// Алгоритмы
 #include "bubble_sort.hpp"
 #include "insertion_sort.hpp"
 #include "selection_sort.hpp"
@@ -8,78 +16,91 @@
 #include "shell_sort.hpp"
 #include "counting_sort.hpp"
 
-#include <iostream>
-#include <memory>
-#include <vector>
-#include <random>
-
-std::vector<int> generateArray(int size) {
-    std::vector<int> arr(size);
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> distrib(ui::MIN_VALUE, ui::MAX_VALUE);
-    for (int& v : arr) v = distrib(gen);
-    return arr;
-}
-
-std::unique_ptr<ISorter> createSorter(ui::MenuOption option) {
-    switch (option) {
-        case ui::MenuOption::BubbleSort:    return std::make_unique<BubbleSort>();
-        case ui::MenuOption::InsertionSort: return std::make_unique<InsertionSort>();
-        case ui::MenuOption::SelectionSort: return std::make_unique<SelectionSort>();
-        case ui::MenuOption::QuickSort:     return std::make_unique<QuickSort>();
-        case ui::MenuOption::MergeSort:     return std::make_unique<MergeSort>();
-        case ui::MenuOption::HeapSort:      return std::make_unique<HeapSort>();
-        case ui::MenuOption::ShellSort:     return std::make_unique<ShellSort>();
-        case ui::MenuOption::CountingSort:  return std::make_unique<CountingSort>();
-        default: return nullptr;
-    }
-}
-
 int main() {
     ui::ConsoleUI ui;
-    std::cout << "\nWelcome to Visual Sort!\n";
-    ui.waitForEnter();
-
-    while (true) {
-        ui.clearScreen();
-        ui.showMenu();
-
-        auto choiceOpt = ui.getAlgorithmChoice();
-        if (!choiceOpt) continue;
-
-        if (*choiceOpt == ui::MenuOption::Exit) {
-            std::cout << "\nGoodbye!\n";
-            break;
-        }
-
-        auto sizeOpt = ui.getArraySize();
-        if (!sizeOpt) { ui.waitForEnter(); continue; }
-
-        std::vector<int> data = generateArray(*sizeOpt);
-        std::vector<int> original = data;
-
-        auto sorter = createSorter(*choiceOpt);
-        if (!sorter) { ui.printMessage("Error!"); ui.waitForEnter(); continue; }
-
-        ui.clearScreen();
-        ui.printMessage("Sorting...\n");
-
-        SortStats stats = sorter->sort(data,
-            [&](const std::vector<int>& arr, int i, int j, const std::string& action) {
-                ui.renderArray(arr, i, j, action);
-            }
-        );
-
-        ui.showStats(sorter->getName(), stats, original, data);
-
-        std::cout << "\nSave results: ";
-        char save; std::cin >> save;
-        if (save == 'y' || save == 'Y') {
-            ui.saveResults("results.csv", sorter->getName(), *sizeOpt, stats);
-        }
-
-        ui.waitForEnter();
+    Logger logger("results.csv");
+    
+    ui.clearScreen();
+    ui.showMenu();
+    
+    // Выбор размера массива
+    auto sizeOpt = ui.getArraySize();
+    if (!sizeOpt) {
+        ui.printMessage("Invalid array size!");
+        return 1;
     }
+    int size = *sizeOpt;
+    
+    // Генерация массива
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dist(ui::MIN_VALUE, ui::MAX_VALUE);
+    
+    std::vector<int> original(size);
+    for (int i = 0; i < size; ++i) {
+        original[i] = dist(gen);
+    }
+    
+    // Выбор алгоритма
+    auto algoOpt = ui.getAlgorithmChoice();
+    if (!algoOpt || *algoOpt == ui::MenuOption::Exit) {
+        ui.printMessage("Goodbye!");
+        return 0;
+    }
+    
+    // Создание сортировщика
+    std::unique_ptr<ISorter> sorter;
+    switch (*algoOpt) {
+        case ui::MenuOption::BubbleSort:
+            sorter = std::make_unique<BubbleSort>();
+            break;
+        case ui::MenuOption::InsertionSort:
+            sorter = std::make_unique<InsertionSort>();
+            break;
+        case ui::MenuOption::SelectionSort:
+            sorter = std::make_unique<SelectionSort>();
+            break;
+        case ui::MenuOption::QuickSort:
+            sorter = std::make_unique<QuickSort>();
+            break;
+        case ui::MenuOption::MergeSort:
+            sorter = std::make_unique<MergeSort>();
+            break;
+        case ui::MenuOption::HeapSort:
+            sorter = std::make_unique<HeapSort>();
+            break;
+        case ui::MenuOption::ShellSort:
+            sorter = std::make_unique<ShellSort>();
+            break;
+        case ui::MenuOption::CountingSort:
+            sorter = std::make_unique<CountingSort>();
+            break;
+        default:
+            ui.printMessage("Invalid algorithm!");
+            return 1;
+    }
+    
+    // Запуск сортировки с анимацией
+    std::vector<int> arr = original;
+    
+    auto startTime = std::chrono::high_resolution_clock::now();
+    
+    SortStats stats = sorter->sort(arr, 
+        [&](const std::vector<int>& a, int i, int j) {
+            ui.renderArray(a, i, j);
+        }
+    );
+    
+    auto endTime = std::chrono::high_resolution_clock::now();
+    stats.duration_ms = std::chrono::duration<double, std::milli>(endTime - startTime).count();
+    
+    // Показ результатов
+    ui.showStats(sorter->getName(), stats, original, arr);
+    
+    // Логирование
+    logger.logResult(sorter->getName(), stats);
+    
+    ui.waitForEnter();
+    
     return 0;
 }
