@@ -45,3 +45,7 @@ build/
 *.exe
 .idea/
 cmake-build-debug/
+_deps/
+cmake-build-debug/
+_deps/
+_deps/
