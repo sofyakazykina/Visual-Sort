@@ -21,5 +21,5 @@ public:
     Logger& operator=(const Logger&) = delete;
 
 private:
-    std::unique_ptr<std::ofstream> file_;  // RAII
+    std::unique_ptr<std::ofstream> file_;
 };

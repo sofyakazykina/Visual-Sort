@@ -44,4 +44,4 @@ public:
     static constexpr int getMaxArraySize() { return MAX_ARRAY_SIZE; }
 };
 
-} // namespace ui
+}

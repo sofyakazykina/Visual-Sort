@@ -1,3 +1,0 @@
-SorterTests 0 0
----
-SorterTests
