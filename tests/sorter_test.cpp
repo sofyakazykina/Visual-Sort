@@ -1,24 +1,108 @@
 #include <gtest/gtest.h>
+#include "bubble_sort.hpp"
+#include "quick_sort.hpp"
+#include "insertion_sort.hpp"
+#include "merge_sort.hpp"
 #include <vector>
 #include <algorithm>
-#include <random>
-#include <string>
-#include "sorter.hpp"
-#include "bubble_sort.hpp"
-#include "insertion_sort.hpp"
-#include "selection_sort.hpp"
-#include "quick_sort.hpp"
-#include "merge_sort.hpp"
-#include "heap_sort.hpp"
-#include "shell_sort.hpp"
-#include "counting_sort.hpp"
 
-// Вспомогательные функции
+// Bubble Sort Tests
+TEST(BubbleSortTest, EmptyArray) {
+    BubbleSort sorter;
+    std::vector<int> data = {};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_TRUE(data.empty());
+    EXPECT_EQ(result.comparisons, 0);
+    EXPECT_EQ(result.swaps, 0);
+}
 
-// Проверка, что массив отсортирован по неубыванию
-bool isSorted(const std::vector<int>& arr) {
-    for (size_t i = 1; i < arr.size(); ++i) {
-        if (arr[i - 1] > arr[i]) return false;
-    }
-    return true;
+TEST(BubbleSortTest, SortedArray) {
+    BubbleSort sorter;
+    std::vector<int> data = {1, 2, 3, 4, 5};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, (std::vector<int>{1, 2, 3, 4, 5}));
+    EXPECT_EQ(result.comparisons, 10);  // n*(n-1)/2
+}
+
+TEST(BubbleSortTest, ReverseArray) {
+    BubbleSort sorter;
+    std::vector<int> data = {5, 4, 3, 2, 1};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, (std::vector<int>{1, 2, 3, 4, 5}));
+    EXPECT_GT(result.swaps, 0);
+}
+
+TEST(BubbleSortTest, SingleElement) {
+    BubbleSort sorter;
+    std::vector<int> data = {42};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, (std::vector<int>{42}));
+}
+
+// Quick Sort Tests
+TEST(QuickSortTest, EmptyArray) {
+    QuickSort sorter;
+    std::vector<int> data = {};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_TRUE(data.empty());
+}
+
+TEST(QuickSortTest, RandomArray) {
+    QuickSort sorter;
+    std::vector<int> data = {64, 34, 25, 12, 22};
+    auto result = sorter.sort(data, nullptr);
+    std::vector<int> expected = {12, 22, 25, 34, 64};
+    EXPECT_EQ(data, expected);
+}
+
+TEST(QuickSortTest, AlreadySorted) {
+    QuickSort sorter;
+    std::vector<int> data = {1, 2, 3, 4, 5};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, (std::vector<int>{1, 2, 3, 4, 5}));
+}
+
+// Insertion Sort Tests
+TEST(InsertionSortTest, SmallArray) {
+    InsertionSort sorter;
+    std::vector<int> data = {3, 1, 2};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, (std::vector<int>{1, 2, 3}));
+}
+
+// Merge Sort Tests
+TEST(MergeSortTest, RandomArray) {
+    MergeSort sorter;
+    std::vector<int> data = {38, 27, 43, 3, 9, 82, 10};
+    auto result = sorter.sort(data, nullptr);
+    std::vector<int> expected = {3, 9, 10, 27, 38, 43, 82};
+    EXPECT_EQ(data, expected);
+}
+
+// General Tests
+TEST(GeneralTest, AllSortersProduceSortedOutput) {
+    std::vector<int> original = {5, 2, 8, 1, 9, 3, 7, 4, 6};
+    
+    BubbleSort bubble;
+    QuickSort quick;
+    InsertionSort insertion;
+    MergeSort merge;
+    
+    std::vector<int> expected = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    
+    std::vector<int> d1 = original;
+    bubble.sort(d1, nullptr);
+    EXPECT_EQ(d1, expected);
+    
+    std::vector<int> d2 = original;
+    quick.sort(d2, nullptr);
+    EXPECT_EQ(d2, expected);
+    
+    std::vector<int> d3 = original;
+    insertion.sort(d3, nullptr);
+    EXPECT_EQ(d3, expected);
+    
+    std::vector<int> d4 = original;
+    merge.sort(d4, nullptr);
+    EXPECT_EQ(d4, expected);
 }

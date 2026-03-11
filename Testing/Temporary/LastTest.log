@@ -1,0 +1,19 @@
+Start testing: Mar 11 19:55 MSK
+----------------------------------------------------------
+Unable to find executable: /Users/sofya/CLionProjects/project/Visual-Sort/tests/sorter_test
+1/1 Testing: SorterTests
+1/1 Test: SorterTests
+Command: ""
+Directory: /Users/sofya/CLionProjects/project/Visual-Sort/tests
+"SorterTests" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"SorterTests" end time: Mar 11 19:55 MSK
+"SorterTests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Mar 11 19:55 MSK
