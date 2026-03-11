@@ -4,7 +4,6 @@
 #include <string>
 #include <chrono>
 #include <algorithm>
-#include <limits>
 
 class CountingSort : public ISorter {
 public:
@@ -12,25 +11,23 @@ public:
         return "Counting Sort";
     }
 
-    SortResult sort(std::vector<int> arr) override {
-        SortResult result;
+    SortStats sort(std::vector<int>& arr, VisualCallback callback) override {
+        SortStats result;
         auto start = std::chrono::high_resolution_clock::now();
-
-        result.comparisons = 0;
-        result.swaps = 0;
 
         if (!arr.empty()) {
             int min_val = *std::min_element(arr.begin(), arr.end());
             int max_val = *std::max_element(arr.begin(), arr.end());
-
             int offset = (min_val < 0) ? -min_val : 0;
             int range = max_val - min_val + 1;
 
+            callback(arr, -1, -1, "counting_init");
+            
             std::vector<size_t> count(range, 0);
-
-            for (int val : arr) {
-                count[val + offset]++;
+            for (size_t i = 0; i < arr.size(); i++) {
+                count[arr[i] + offset]++;
                 result.comparisons++;
+                callback(arr, static_cast<int>(i), -1, "count");
             }
 
             for (size_t i = 1; i < count.size(); i++) {
@@ -41,18 +38,53 @@ public:
             std::vector<int> output(arr.size());
             for (int64_t i = static_cast<int64_t>(arr.size()) - 1; i >= 0; --i) {
                 int val = arr[i];
-                output[count[val + offset] - 1] = val;
+                int pos = count[val + offset] - 1;
+                output[pos] = val;
                 count[val + offset]--;
                 result.swaps++;
+                callback(arr, static_cast<int>(i), pos, "place");
             }
 
-            arr = std::move(output);
+            for (size_t i = 0; i < arr.size(); i++) {
+                if (arr[i] != output[i]) {
+                    arr[i] = output[i];
+                    callback(arr, static_cast<int>(i), -1, "final");
+                }
+            }
         }
 
         auto end = std::chrono::high_resolution_clock::now();
-        result.execution_time_ms = std::chrono::duration<double, std::milli>(end - start).count();
+        result.duration_ms = std::chrono::duration<double, std::milli>(end - start).count();
         result.sorted_array = arr;
+        return result;
+    }
 
+    SortStats sortFast(std::vector<int> arr) override {
+        SortStats result;
+        auto start = std::chrono::high_resolution_clock::now();
+        
+        if (!arr.empty()) {
+            int min_val = *std::min_element(arr.begin(), arr.end());
+            int max_val = *std::max_element(arr.begin(), arr.end());
+            int offset = (min_val < 0) ? -min_val : 0;
+            int range = max_val - min_val + 1;
+            
+            std::vector<size_t> count(range, 0);
+            for (int val : arr) count[val + offset]++;
+            for (size_t i = 1; i < count.size(); i++) count[i] += count[i - 1];
+            
+            std::vector<int> output(arr.size());
+            for (int64_t i = static_cast<int64_t>(arr.size()) - 1; i >= 0; --i) {
+                int val = arr[i];
+                output[count[val + offset] - 1] = val;
+                count[val + offset]--;
+            }
+            arr = std::move(output);
+        }
+        
+        auto end = std::chrono::high_resolution_clock::now();
+        result.duration_ms = std::chrono::duration<double, std::milli>(end - start).count();
+        result.sorted_array = arr;
         return result;
     }
 };

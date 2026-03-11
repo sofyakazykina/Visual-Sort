@@ -3,7 +3,6 @@
 #include <vector>
 #include <string>
 #include <chrono>
-#include <algorithm>
 
 class QuickSort : public ISorter {
 public:
@@ -11,44 +10,95 @@ public:
         return "Quick Sort";
     }
 
-    SortResult sort(std::vector<int> arr) override {
-        SortResult result;
+    SortStats sort(std::vector<int>& arr, VisualCallback callback) override {
+        SortStats result;
         auto start = std::chrono::high_resolution_clock::now();
-
-        result.comparisons = 0;
-        result.swaps = 0;
-        quickSortRecursive(arr, 0, arr.size() - 1, result);
-
+        
+        quickSortRecursive(arr, 0, static_cast<int>(arr.size()) - 1, result, callback);
+        
         auto end = std::chrono::high_resolution_clock::now();
-        result.execution_time_ms = std::chrono::duration<double, std::milli>(end - start).count();
+        result.duration_ms = std::chrono::duration<double, std::milli>(end - start).count();
         result.sorted_array = arr;
-
         return result;
     }
 
 private:
-    int64_t partition(std::vector<int>& vec, int64_t low, int64_t high, SortResult& result) {
-        int pivot = vec[high];
-        int64_t i = low - 1;
+    int partition(std::vector<int>& arr, int low, int high, SortStats& result, VisualCallback& callback) {
+        int pivot = arr[high];
+        int i = low - 1;
+        
+        callback(arr, high, -1, "pivot");
 
-        for (int64_t j = low; j < high; ++j) {
+        for (int j = low; j < high; ++j) {
             result.comparisons++;
-            if (vec[j] < pivot) {
+            callback(arr, j, high, "compare");
+            
+            if (arr[j] < pivot) {
                 ++i;
-                std::swap(vec[i], vec[j]);
-                result.swaps++;
+                if (i != j) {
+                    std::swap(arr[i], arr[j]);
+                    result.swaps++;
+                    callback(arr, i, j, "swap");
+                }
             }
         }
-        std::swap(vec[i + 1], vec[high]);
-        result.swaps++;
+        
+        if (i + 1 != high) {
+            std::swap(arr[i + 1], arr[high]);
+            result.swaps++;
+            callback(arr, i + 1, high, "pivot_place");
+        }
         return i + 1;
     }
 
-    void quickSortRecursive(std::vector<int>& vec, int64_t low, int64_t high, SortResult& result) {
+    void quickSortRecursive(std::vector<int>& arr, int low, int high, SortStats& result, VisualCallback& callback) {
         if (low < high) {
-            int64_t pi = partition(vec, low, high, result);
-            quickSortRecursive(vec, low, pi - 1, result);
-            quickSortRecursive(vec, pi + 1, high, result);
+            callback(arr, low, high, "partition");
+            int pi = partition(arr, low, high, result, callback);
+            quickSortRecursive(arr, low, pi - 1, result, callback);
+            quickSortRecursive(arr, pi + 1, high, result, callback);
+        }
+    }
+
+public:
+    SortStats sortFast(std::vector<int> arr) override {
+        SortStats result;
+        auto start = std::chrono::high_resolution_clock::now();
+        
+        quickSortFast(arr, 0, static_cast<int>(arr.size()) - 1, result);
+        
+        auto end = std::chrono::high_resolution_clock::now();
+        result.duration_ms = std::chrono::duration<double, std::milli>(end - start).count();
+        result.sorted_array = arr;
+        return result;
+    }
+
+private:
+    int partitionFast(std::vector<int>& arr, int low, int high, SortStats& result) {
+        int pivot = arr[high];
+        int i = low - 1;
+        for (int j = low; j < high; ++j) {
+            result.comparisons++;
+            if (arr[j] < pivot) {
+                ++i;
+                if (i != j) {
+                    std::swap(arr[i], arr[j]);
+                    result.swaps++;
+                }
+            }
+        }
+        if (i + 1 != high) {
+            std::swap(arr[i + 1], arr[high]);
+            result.swaps++;
+        }
+        return i + 1;
+    }
+
+    void quickSortFast(std::vector<int>& arr, int low, int high, SortStats& result) {
+        if (low < high) {
+            int pi = partitionFast(arr, low, high, result);
+            quickSortFast(arr, low, pi - 1, result);
+            quickSortFast(arr, pi + 1, high, result);
         }
     }
 };
