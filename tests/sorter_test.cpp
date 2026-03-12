@@ -401,27 +401,53 @@ TEST(CountingSortTest, LargeRange) {
 // General Tests
 TEST(GeneralTest, AllSortersProduceSortedOutput) {
     std::vector<int> original = {5, 2, 8, 1, 9, 3, 7, 4, 6};
+    std::vector<int> expected = {1, 2, 3, 4, 5, 6, 7, 8, 9};
     
     BubbleSort bubble;
     QuickSort quick;
     InsertionSort insertion;
     MergeSort merge;
+    SelectionSort selection;
+    HeapSort heap;
+    ShellSort shell;
+    CountingSort counting;
     
-    std::vector<int> expected = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    std::vector<int> d1 = original; bubble.sort(d1, nullptr);
+    std::vector<int> d2 = original; quick.sort(d2, nullptr);
+    std::vector<int> d3 = original; insertion.sort(d3, nullptr);
+    std::vector<int> d4 = original; merge.sort(d4, nullptr);
+    std::vector<int> d5 = original; selection.sort(d5, nullptr);
+    std::vector<int> d6 = original; heap.sort(d6, nullptr);
+    std::vector<int> d7 = original; shell.sort(d7, nullptr);
+    std::vector<int> d8 = original; counting.sort(d8, nullptr);
     
-    std::vector<int> d1 = original;
-    bubble.sort(d1, nullptr);
-    EXPECT_EQ(d1, expected);
+    EXPECT_EQ(d1, expected); EXPECT_EQ(d2, expected);
+    EXPECT_EQ(d3, expected); EXPECT_EQ(d4, expected);
+    EXPECT_EQ(d5, expected); EXPECT_EQ(d6, expected);
+    EXPECT_EQ(d7, expected); EXPECT_EQ(d8, expected);
+}
+
+TEST(GeneralTest, MetricsAreNonNegative) {
+    std::vector<int> data = {5, 2, 8, 1, 9};
     
-    std::vector<int> d2 = original;
-    quick.sort(d2, nullptr);
-    EXPECT_EQ(d2, expected);
+    BubbleSort bubble;
+    auto r1 = bubble.sort(data, nullptr);
+    EXPECT_GE(r1.comparisons, 0);
+    EXPECT_GE(r1.swaps, 0);
+    EXPECT_GE(r1.execution_time_ms, 0.0);
     
-    std::vector<int> d3 = original;
-    insertion.sort(d3, nullptr);
-    EXPECT_EQ(d3, expected);
+    QuickSort quick;
+    auto r2 = quick.sort(data, nullptr);
+    EXPECT_GE(r2.comparisons, 0);
+    EXPECT_GE(r2.swaps, 0);
+}
+
+TEST(GeneralTest, OutputSizeMatchesInput) {
+    std::vector<int> data = {3, 1, 4, 1, 5, 9, 2, 6};
+    size_t originalSize = data.size();
     
-    std::vector<int> d4 = original;
-    merge.sort(d4, nullptr);
-    EXPECT_EQ(d4, expected);
+    MergeSort sorter;
+    sorter.sort(data, nullptr);
+    
+    EXPECT_EQ(data.size(), originalSize);
 }
