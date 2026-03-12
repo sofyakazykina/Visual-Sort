@@ -3,6 +3,10 @@
 #include "quick_sort.hpp"
 #include "insertion_sort.hpp"
 #include "merge_sort.hpp"
+#include "selection_sort.hpp"
+#include "heap_sort.hpp"
+#include "shell_sort.hpp"
+#include "counting_sort.hpp"
 #include <vector>
 #include <algorithm>
 
@@ -39,6 +43,23 @@ TEST(BubbleSortTest, SingleElement) {
     EXPECT_EQ(data, (std::vector<int>{42}));
 }
 
+TEST(BubbleSortTest, WithDuplicates) {
+    BubbleSort sorter;
+    std::vector<int> data = {3, 1, 4, 1, 5, 9, 2, 6, 5};
+    std::vector<int> expected = {1, 1, 2, 3, 4, 5, 5, 6, 9};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, expected);
+}
+
+TEST(BubbleSortTest, NegativeNumbers) {
+    BubbleSort sorter;
+    std::vector<int> data = {-5, 10, -3, 0, 7, -1};
+    std::vector<int> expected = {-5, -3, -1, 0, 7, 10};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, expected);
+}
+
+
 // Quick Sort Tests
 TEST(QuickSortTest, EmptyArray) {
     QuickSort sorter;
@@ -62,7 +83,39 @@ TEST(QuickSortTest, AlreadySorted) {
     EXPECT_EQ(data, (std::vector<int>{1, 2, 3, 4, 5}));
 }
 
+TEST(QuickSortTest, ReverseArray) {
+    QuickSort sorter;
+    std::vector<int> data = {5, 4, 3, 2, 1};
+    std::vector<int> expected = {1, 2, 3, 4, 5};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, expected);
+}
+
+TEST(QuickSortTest, WithDuplicates) {
+    QuickSort sorter;
+    std::vector<int> data = {3, 1, 4, 1, 5};
+    std::vector<int> expected = {1, 1, 3, 4, 5};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, expected);
+}
+
+TEST(QuickSortTest, NegativeNumbers) {
+    QuickSort sorter;
+    std::vector<int> data = {-10, 5, -3, 0, 8};
+    std::vector<int> expected = {-10, -3, 0, 5, 8};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, expected);
+}
+
+
 // Insertion Sort Tests
+TEST(InsertionSortTest, EmptyArray) {
+    InsertionSort sorter;
+    std::vector<int> data = {};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_TRUE(data.empty());
+}
+
 TEST(InsertionSortTest, SmallArray) {
     InsertionSort sorter;
     std::vector<int> data = {3, 1, 2};
@@ -70,7 +123,46 @@ TEST(InsertionSortTest, SmallArray) {
     EXPECT_EQ(data, (std::vector<int>{1, 2, 3}));
 }
 
+TEST(InsertionSortTest, AlreadySorted) {
+    InsertionSort sorter;
+    std::vector<int> data = {1, 2, 3, 4, 5};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, (std::vector<int>{1, 2, 3, 4, 5}));
+}
+
+TEST(InsertionSortTest, ReverseArray) {
+    InsertionSort sorter;
+    std::vector<int> data = {5, 4, 3, 2, 1};
+    std::vector<int> expected = {1, 2, 3, 4, 5};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, expected);
+}
+
+TEST(InsertionSortTest, WithDuplicates) {
+    InsertionSort sorter;
+    std::vector<int> data = {2, 2, 1, 1};
+    std::vector<int> expected = {1, 1, 2, 2};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, expected);
+}
+
+TEST(InsertionSortTest, NegativeNumbers) {
+    InsertionSort sorter;
+    std::vector<int> data = {-5, 10, -3, 0, 7};
+    std::vector<int> expected = {-5, -3, 0, 7, 10};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, expected);
+}
+
+
 // Merge Sort Tests
+TEST(MergeSortTest, EmptyArray) {
+    MergeSort sorter;
+    std::vector<int> data = {};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_TRUE(data.empty());
+}
+
 TEST(MergeSortTest, RandomArray) {
     MergeSort sorter;
     std::vector<int> data = {38, 27, 43, 3, 9, 82, 10};
@@ -78,6 +170,38 @@ TEST(MergeSortTest, RandomArray) {
     std::vector<int> expected = {3, 9, 10, 27, 38, 43, 82};
     EXPECT_EQ(data, expected);
 }
+
+TEST(MergeSortTest, AlreadySorted) {
+    MergeSort sorter;
+    std::vector<int> data = {1, 2, 3, 4, 5};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, (std::vector<int>{1, 2, 3, 4, 5}));
+}
+
+TEST(MergeSortTest, ReverseArray) {
+    MergeSort sorter;
+    std::vector<int> data = {5, 4, 3, 2, 1};
+    std::vector<int> expected = {1, 2, 3, 4, 5};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, expected);
+}
+
+TEST(MergeSortTest, WithDuplicates) {
+    MergeSort sorter;
+    std::vector<int> data = {4, 2, 4, 1, 2};
+    std::vector<int> expected = {1, 2, 2, 4, 4};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, expected);
+}
+
+TEST(MergeSortTest, NegativeNumbers) {
+    MergeSort sorter;
+    std::vector<int> data = {-8, 15, -3, 0, 22};
+    std::vector<int> expected = {-8, -3, 0, 15, 22};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, expected);
+}
+
 
 // General Tests
 TEST(GeneralTest, AllSortersProduceSortedOutput) {
