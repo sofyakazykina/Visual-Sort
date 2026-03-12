@@ -296,6 +296,107 @@ TEST(HeapSortTest, NegativeNumbers) {
     EXPECT_EQ(data, expected);
 }
 
+// Shell Sort Tests
+
+TEST(ShellSortTest, EmptyArray) {
+    ShellSort sorter;
+    std::vector<int> data = {};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_TRUE(data.empty());
+}
+
+TEST(ShellSortTest, SingleElement) {
+    ShellSort sorter;
+    std::vector<int> data = {42};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, (std::vector<int>{42}));
+}
+
+TEST(ShellSortTest, SortedArray) {
+    ShellSort sorter;
+    std::vector<int> data = {1, 2, 3, 4, 5};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, (std::vector<int>{1, 2, 3, 4, 5}));
+}
+
+TEST(ShellSortTest, ReverseArray) {
+    ShellSort sorter;
+    std::vector<int> data = {5, 4, 3, 2, 1};
+    std::vector<int> expected = {1, 2, 3, 4, 5};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, expected);
+}
+
+TEST(ShellSortTest, WithDuplicates) {
+    ShellSort sorter;
+    std::vector<int> data = {4, 2, 4, 1, 2};
+    std::vector<int> expected = {1, 2, 2, 4, 4};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, expected);
+}
+
+TEST(ShellSortTest, NegativeNumbers) {
+    ShellSort sorter;
+    std::vector<int> data = {-8, 15, -3, 0, 22};
+    std::vector<int> expected = {-8, -3, 0, 15, 22};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, expected);
+}
+
+// Counting Sort Tests
+
+TEST(CountingSortTest, EmptyArray) {
+    CountingSort sorter;
+    std::vector<int> data = {};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_TRUE(data.empty());
+}
+
+TEST(CountingSortTest, SingleElement) {
+    CountingSort sorter;
+    std::vector<int> data = {42};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, (std::vector<int>{42}));
+}
+
+TEST(CountingSortTest, SortedArray) {
+    CountingSort sorter;
+    std::vector<int> data = {1, 2, 3, 4, 5};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, (std::vector<int>{1, 2, 3, 4, 5}));
+}
+
+TEST(CountingSortTest, ReverseArray) {
+    CountingSort sorter;
+    std::vector<int> data = {5, 4, 3, 2, 1};
+    std::vector<int> expected = {1, 2, 3, 4, 5};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, expected);
+}
+
+TEST(CountingSortTest, WithDuplicates) {
+    CountingSort sorter;
+    std::vector<int> data = {3, 1, 4, 1, 5, 3};
+    std::vector<int> expected = {1, 1, 3, 3, 4, 5};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, expected);
+}
+
+TEST(CountingSortTest, NegativeNumbers) {
+    CountingSort sorter;
+    std::vector<int> data = {-10, 5, -3, 0, 8, -5};
+    std::vector<int> expected = {-10, -5, -3, 0, 5, 8};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, expected);
+}
+
+TEST(CountingSortTest, LargeRange) {
+    CountingSort sorter;
+    std::vector<int> data = {100, -100, 50, -50, 0};
+    std::vector<int> expected = {-100, -50, 0, 50, 100};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, expected);
+}
 
 // General Tests
 TEST(GeneralTest, AllSortersProduceSortedOutput) {
