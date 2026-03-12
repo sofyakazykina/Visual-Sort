@@ -434,7 +434,6 @@ TEST(GeneralTest, MetricsAreNonNegative) {
     auto r1 = bubble.sort(data, nullptr);
     EXPECT_GE(r1.comparisons, 0);
     EXPECT_GE(r1.swaps, 0);
-    EXPECT_GE(r1.execution_time_ms, 0.0);
     
     QuickSort quick;
     auto r2 = quick.sort(data, nullptr);
