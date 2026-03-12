@@ -120,11 +120,5 @@ namespace ui {
         std::cout << msg << std::endl;
     }
 
-    void ConsoleUI::waitForEnter() const {
-        std::cout << "Press Enter to continue...";
-        std::cin.clear();
-        std::string dummy;
-        std::getline(std::cin, dummy);
-    }
 
 }
