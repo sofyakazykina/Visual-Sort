@@ -154,6 +154,13 @@ TEST(InsertionSortTest, NegativeNumbers) {
 }
 
 // Merge Sort Tests
+TEST(MergeSortTest, EmptyArray) {
+    MergeSort sorter;
+    std::vector<int> data = {};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_TRUE(data.empty());
+}
+
 TEST(MergeSortTest, RandomArray) {
     MergeSort sorter;
     std::vector<int> data = {38, 27, 43, 3, 9, 82, 10};
@@ -161,6 +168,134 @@ TEST(MergeSortTest, RandomArray) {
     std::vector<int> expected = {3, 9, 10, 27, 38, 43, 82};
     EXPECT_EQ(data, expected);
 }
+
+TEST(MergeSortTest, AlreadySorted) {
+    MergeSort sorter;
+    std::vector<int> data = {1, 2, 3, 4, 5};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, (std::vector<int>{1, 2, 3, 4, 5}));
+}
+
+TEST(MergeSortTest, ReverseArray) {
+    MergeSort sorter;
+    std::vector<int> data = {5, 4, 3, 2, 1};
+    std::vector<int> expected = {1, 2, 3, 4, 5};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, expected);
+}
+
+TEST(MergeSortTest, WithDuplicates) {
+    MergeSort sorter;
+    std::vector<int> data = {4, 2, 4, 1, 2};
+    std::vector<int> expected = {1, 2, 2, 4, 4};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, expected);
+}
+
+TEST(MergeSortTest, NegativeNumbers) {
+    MergeSort sorter;
+    std::vector<int> data = {-8, 15, -3, 0, 22};
+    std::vector<int> expected = {-8, -3, 0, 15, 22};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, expected);
+}
+
+// Selection Sort Tests
+
+TEST(SelectionSortTest, EmptyArray) {
+    SelectionSort sorter;
+    std::vector<int> data = {};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_TRUE(data.empty());
+    EXPECT_EQ(result.comparisons, 0);
+}
+
+TEST(SelectionSortTest, SingleElement) {
+    SelectionSort sorter;
+    std::vector<int> data = {42};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, (std::vector<int>{42}));
+}
+
+TEST(SelectionSortTest, SortedArray) {
+    SelectionSort sorter;
+    std::vector<int> data = {1, 2, 3, 4, 5};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, (std::vector<int>{1, 2, 3, 4, 5}));
+}
+
+TEST(SelectionSortTest, ReverseArray) {
+    SelectionSort sorter;
+    std::vector<int> data = {5, 4, 3, 2, 1};
+    std::vector<int> expected = {1, 2, 3, 4, 5};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, expected);
+    EXPECT_GT(result.swaps, 0);
+}
+
+TEST(SelectionSortTest, WithDuplicates) {
+    SelectionSort sorter;
+    std::vector<int> data = {3, 1, 4, 1, 5};
+    std::vector<int> expected = {1, 1, 3, 4, 5};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, expected);
+}
+
+TEST(SelectionSortTest, NegativeNumbers) {
+    SelectionSort sorter;
+    std::vector<int> data = {-5, 10, -3, 0, 7};
+    std::vector<int> expected = {-5, -3, 0, 7, 10};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, expected);
+}
+
+// Heap Sort Tests
+
+TEST(HeapSortTest, EmptyArray) {
+    HeapSort sorter;
+    std::vector<int> data = {};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_TRUE(data.empty());
+}
+
+TEST(HeapSortTest, SingleElement) {
+    HeapSort sorter;
+    std::vector<int> data = {42};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, (std::vector<int>{42}));
+}
+
+TEST(HeapSortTest, SortedArray) {
+    HeapSort sorter;
+    std::vector<int> data = {1, 2, 3, 4, 5};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, (std::vector<int>{1, 2, 3, 4, 5}));
+}
+
+TEST(HeapSortTest, ReverseArray) {
+    HeapSort sorter;
+    std::vector<int> data = {5, 4, 3, 2, 1};
+    std::vector<int> expected = {1, 2, 3, 4, 5};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, expected);
+}
+
+TEST(HeapSortTest, WithDuplicates) {
+    HeapSort sorter;
+    std::vector<int> data = {7, 3, 7, 1, 3};
+    std::vector<int> expected = {1, 3, 3, 7, 7};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, expected);
+}
+
+TEST(HeapSortTest, NegativeNumbers) {
+    HeapSort sorter;
+    std::vector<int> data = {-10, 5, -3, 0, 8};
+    std::vector<int> expected = {-10, -3, 0, 5, 8};
+    auto result = sorter.sort(data, nullptr);
+    EXPECT_EQ(data, expected);
+}
+
 
 // General Tests
 TEST(GeneralTest, AllSortersProduceSortedOutput) {
