@@ -5,7 +5,7 @@
 #include <functional>
 #include <memory>
 #include <chrono>
-
+#include <variant>
 struct SortStats {
     long long comparisons = 0;
     long long swaps = 0;
@@ -20,6 +20,8 @@ public:
     virtual std::string getName() const = 0;
     virtual SortStats sort(std::vector<int>& array, StepCallback callback) = 0;
 };
+
+using SortResult = std::variant<SortStats, std::string>;
 
 class IArrayGenerator {
 public:

@@ -38,7 +38,6 @@ public:
     void saveResults(const std::string& filename, const std::string& algo,
                      int size, const SortStats& stats) const;
     void printMessage(const std::string& msg) const;
-    void waitForEnter() const;
 
     static constexpr int getMinArraySize() { return MIN_ARRAY_SIZE; }
     static constexpr int getMaxArraySize() { return MAX_ARRAY_SIZE; }

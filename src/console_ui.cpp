@@ -6,8 +6,10 @@
 #include <algorithm>
 #include <thread>
 #include <chrono>
+#include <stdexcept>
 
 namespace ui {
+
 
     void ConsoleUI::clearScreen() const {
         std::cout << "\033[2J\033[H" << std::flush;
@@ -63,28 +65,38 @@ namespace ui {
                   << MAX_ARRAY_SIZE << "): ";
 
         int size;
-        if (std::cin >> size) {
-            if (size >= MIN_ARRAY_SIZE && size <= MAX_ARRAY_SIZE) {
-                return size;
-            }
+        if (!(std::cin >> size)) {
+            std::cin.clear();
+            std::cin.ignore(10000, '\n');
+            throw std::runtime_error("Invalid input: expected integer for array size");
         }
-        std::cin.clear();
+
+        if (size < MIN_ARRAY_SIZE || size > MAX_ARRAY_SIZE) {
+            throw std::out_of_range("Array size must be between " +
+                                    std::to_string(MIN_ARRAY_SIZE) + " and " +
+                                    std::to_string(MAX_ARRAY_SIZE));
+        }
+
         std::cin.ignore(10000, '\n');
-        return std::nullopt;
+        return size;
     }
 
     std::optional<MenuOption> ConsoleUI::getAlgorithmChoice() const {
         std::cout << "Choose algorithm (0-8): ";
 
         int choice;
-        if (std::cin >> choice) {
-            if (choice >= 0 && choice <= 8) {
-                return static_cast<MenuOption>(choice);
-            }
+        if (!(std::cin >> choice)) {
+            std::cin.clear();
+            std::cin.ignore(10000, '\n');
+            throw std::runtime_error("Invalid input: expected integer for algorithm choice");
         }
-        std::cin.clear();
+
+        if (choice < 0 || choice > 8) {
+            throw std::out_of_range("Algorithm choice must be between 0 and 8");
+        }
+
         std::cin.ignore(10000, '\n');
-        return std::nullopt;
+        return static_cast<MenuOption>(choice);
     }
 
     void ConsoleUI::showStats(const std::string& algoName, const SortStats& stats,
@@ -108,17 +120,21 @@ namespace ui {
 
     void ConsoleUI::saveResults(const std::string& filename, const std::string& algo,
                                 int size, const SortStats& stats) const {
-        std::ofstream file(filename, std::ios::app);
-        if (file.is_open()) {
+        try {
+            std::ofstream file(filename, std::ios::app);
+            if (!file.is_open()) {
+                throw std::runtime_error("Cannot open file: " + filename);
+            }
             file << algo << "," << size << "," << stats.comparisons << ","
                  << stats.swaps << "," << stats.duration_ms << "\n";
             file.close();
+        } catch (const std::exception& e) {
+            std::cerr << "Warning: Could not save results: " << e.what() << "\n";
         }
     }
 
     void ConsoleUI::printMessage(const std::string& msg) const {
         std::cout << msg << std::endl;
     }
-
 
 }
