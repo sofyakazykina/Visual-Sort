@@ -1,0 +1,14 @@
+# ninja log v6
+4	568	1773400659809688458	CMakeFiles/sortlib.dir/src/shell_sort.cpp.o	7cd2224acece2a5b
+2	582	1773400659807829791	CMakeFiles/sortlib.dir/src/insertion_sort.cpp.o	9c5420d41571d40f
+2	591	1773400659808124249	CMakeFiles/sortlib.dir/src/quick_sort.cpp.o	66fd644077e18f5f
+3	596	1773400659808821999	CMakeFiles/sortlib.dir/src/heap_sort.cpp.o	b52bf0c79792bf1d
+1	601	1773400659807182666	CMakeFiles/sortlib.dir/src/bubble_sort.cpp.o	dd81ead4c92e79c5
+2	601	1773400659808238208	CMakeFiles/sortlib.dir/src/merge_sort.cpp.o	684781c3403c9799
+2	655	1773400659807991374	CMakeFiles/sortlib.dir/src/selection_sort.cpp.o	180d43f83f5da946
+4	657	1773400659810097458	CMakeFiles/sortlib.dir/src/counting_sort.cpp.o	8e9361c9456bd1cb
+570	967	1773400660376253624	CMakeFiles/sortlib.dir/src/logger.cpp.o	b44b11391ac0f808
+582	1046	1773400660388119708	CMakeFiles/sortlib.dir/src/console_ui.cpp.o	a881a13a75333ba9
+1046	1085	1773400660852276416	libsortlib.a	7f1dd758e662ea38
+591	1124	1773400660396838874	CMakeFiles/main_app.dir/src/main.cpp.o	446f5213d6c1c773
+1124	1159	1773400660929933291	main_app	40c1ee2a1b360c9
