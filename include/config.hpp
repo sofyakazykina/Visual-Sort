@@ -1,5 +1,4 @@
-#ifndef VISUAL_SORT_CONFIG_HPP
-#define VISUAL_SORT_CONFIG_HPP
+#pragma once
 
 #include <string>
 #include <string_view>
